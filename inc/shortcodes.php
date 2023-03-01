@@ -517,13 +517,13 @@ function fs_tech_talents_func($atts)
     $atts = shortcode_atts( [
 		'lang' => '',
 	], $atts );
-    
-    [$endpoint_url, $redirection_url] = fs_get_env();
 
-    $currentTech    = $atts['lang'] ?? '';
-    $response       = wp_remote_get($endpoint_url . '/io/talents?keyword='. $currentTech .'&match-any-keywords=false');
+    [$endpoint_url]     = fs_get_env($_GET['env'] ?? '');
+    $selectedLang       = $atts['lang'] ?? '';
+
+    $response           = wp_remote_get($endpoint_url . '/io/talents?keyword='. $selectedLang .'&match-any-keywords=false');
     
-    // oops, there's something wrong while communicating to the API, better stop.
+    // if there's something wrong while communicating to the API, stop.
     if (is_wp_error($response)) {
         return;
     }
@@ -540,134 +540,6 @@ function fs_tech_talents_func($atts)
     if (count($talents) > 4) {
         $talents = array_slice($talents, 0, 4);
     }
-
-    // this should be coming from the API
-    // $talents = [
-    //     [
-    //         'id'        => 1,
-    //         'avatar_url'=> get_stylesheet_directory_uri() . '/images/charry-profilepicture.png',
-    //         'name'      => 'Charry',
-    //         'role'      => 'Developer',
-    //         'excerpt'   => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porttitor arcu eget mauris sodales scelerisque.',
-    //         'tags'      => [
-    //             'PHP',
-    //             'CSS',
-    //             'Android',
-    //             'Node.js',
-    //             'JavaScript',
-    //         ],
-    //         'skills' => [
-    //             [
-    //                 'name'  => 'SQL',
-    //                 'rate'  => '63',
-    //                 'class' => 'sql',
-    //             ],
-    //             [
-    //                 'name'  => 'JavaScript',
-    //                 'rate'  => '56',
-    //                 'class' => 'js',
-    //             ],
-    //             [
-    //                 'name'  => 'NodeJS',
-    //                 'rate'  => '55',
-    //                 'class' => 'node-js',
-    //             ]
-    //         ],
-    //     ],
-    //     [
-    //         'id'        => 2,
-    //         'avatar_url'=> get_stylesheet_directory_uri() . '/images/belleo-profilepicture.png',
-    //         'name'      => 'Belleo',
-    //         'role'      => 'Developer',
-    //         'excerpt'   => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam facilisis nunc in dui bibendum.',
-    //         'tags'      => [
-    //             'PHP',
-    //             'CSS',
-    //             'Android',
-    //             'Node.js',
-    //             'JavaScript',
-    //         ],
-    //         'skills' => [
-    //             [
-    //                 'name'  => 'SEL',
-    //                 'rate'  => '90',
-    //                 'class' => 'angular-js',
-    //             ],
-    //             [
-    //                 'name'  => 'Software Engineering',
-    //                 'rate'  => '90',
-    //                 'class' => 'software-engineering',
-    //             ],
-    //             [
-    //                 'name'  => 'PHP',
-    //                 'rate'  => '89',
-    //                 'class' => 'php',
-    //             ]
-    //         ],
-    //     ],
-    //     [
-    //         'id'        => 3,
-    //         'avatar_url'=> get_stylesheet_directory_uri() . '/images/mark-profilepicture.png',
-    //         'name'      => 'Mark',
-    //         'role'      => 'Developer',
-    //         'excerpt'   => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porttitor arcu eget mauris sodales scelerisque.',
-    //         'tags'      => [
-    //             'PHP',
-    //             'CSS',
-    //             'Android',
-    //             'Node.js',
-    //             'JavaScript',
-    //         ],
-    //         'skills' => [
-    //             [
-    //                 'name'  => 'API Development',
-    //                 'rate'  => '93',
-    //                 'class' => 'api-development',
-    //             ],
-    //             [
-    //                 'name'  => 'Ruby on Rails',
-    //                 'rate'  => '81',
-    //                 'class' => 'ruby-rails',
-    //             ],
-    //             [
-    //                 'name'  => 'ReactJS',
-    //                 'rate'  => '68',
-    //                 'class' => 'react-js',
-    //             ]
-    //         ],
-    //     ],
-    //     [
-    //         'id'        => 4,
-    //         'avatar_url'=> get_stylesheet_directory_uri() . '/images/eramae-profilepicture.png',
-    //         'name'      => 'Eramae',
-    //         'role'      => 'Developer',
-    //         'excerpt'   => 'Sed porttitor arcu eget mauris sodales scelerisque. Nullam facilisis nunc in dui bibendum, id porttitor justo lacinia.',
-    //         'tags'      => [
-    //             'PHP',
-    //             'CSS',
-    //             'Android',
-    //             'Node.js',
-    //             'JavaScript',
-    //         ],
-    //         'skills' => [
-    //             [
-    //                 'name'  => 'C#/.NET',
-    //                 'rate'  => '93',
-    //                 'class' => 'c-sharp',
-    //             ],
-    //             [
-    //                 'name'  => 'JavaScript',
-    //                 'rate'  => '85',
-    //                 'class' => 'js',
-    //             ],
-    //             [
-    //                 'name'  => 'ReactJS',
-    //                 'rate'  => '68',
-    //                 'class' => 'react-js',
-    //             ]
-    //         ],
-    //     ],
-    // ];
 
     // turn on output buffering
     ob_start();

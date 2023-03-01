@@ -4,13 +4,13 @@ function _var_dump($dump) {
 	if (empty($dump)) {
 		return;
 	}
-	
+
 	echo '<pre>';
 		var_dump($dump);
 	echo '</pre>';
 }
 
-function fs_get_env($env = 'local') {
+function fs_get_env(string $env = 'local') : Array {
 	$theme_settings = get_option('fullscale_theme_settings');
 
 	switch($env) {

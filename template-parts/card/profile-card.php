@@ -59,7 +59,7 @@
             <div>
                 <a href="javascript: void(0);" 
                     class="btn btn-primary text-uppercase no-underline btn-profile"
-                    data-id="<?php echo $args['id']; ?>"
+                    data-id="<?php echo $args['unique_str']; ?>"
                 >
                     View Profile
                 </a>
