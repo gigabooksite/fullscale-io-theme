@@ -29,11 +29,11 @@ jQuery(document).ready(function($) {
                 gettingStartedBtn.setAttribute('disabled', 'disabled')
                 loaderImg.style.display = 'block'
                 
-                $.post( client_onboarding.ajaxurl, contents, function(data) {
+                $.post( fs_ajax_params.ajaxurl, contents, function(data) {
                     // console.log(data)?
                     gettingStartedBtn.removeAttribute('disabled')
                     loaderImg.style.display = 'none'
-                
+                    
                     if (200 == data.status) {
                         // message.innerHTML = `<p class="success">${data.message}</p>`
                         
@@ -49,15 +49,27 @@ jQuery(document).ready(function($) {
     }
     
     // view profile
+    const profileItems = document.querySelectorAll('.tech-talents .item')
+    if (profileItems.length > 0) {
+        profileItems.forEach(profile => {
+            profile.addEventListener('click', (e) => {
+                
+                console.log(e.target)
+
+            });
+        });
+    }
+
+    // view profile
     const btnProfiles = document.querySelectorAll('.tech-talents .btn-profile')
     
     if (btnProfiles.length > 0) {
         btnProfiles.forEach(profile => {
             profile.addEventListener('click', (e) => {
                 e.preventDefault();
-                
-                const profileId = profile.getAttribute('data-id')
 
+                console.log(e.target)
+                
                 // scroll-top
                 window.scroll({
                     top: 200,
@@ -65,14 +77,29 @@ jQuery(document).ready(function($) {
                     behavior: 'smooth'
                 });
                 
-                // display view-profile dialog blox
-                document.body.classList.add('dialog-open')
+                const profileUniqueId = profile.getAttribute('data-id')
 
-                console.log(profileId)
-                // ajax request goes here!!!!
+                // if profileUniqueId is empty stop
+                if ('' === profileUniqueId) {
+                    return
+                }
+                
+                // okay, our data is ready now open dialog-box
+                document.body.classList.add('dialog-open')
+                
+                const data = {
+                    action:	'view_profile', 
+                    talentId: profileUniqueId,
+                    endpoint_url: fs_ajax_params.endpoint,
+                }
+                
+                $.post( fs_ajax_params.ajaxurl, data, function(data) {
+                    const profileSingle = document.getElementById('profile_single')
+
+                    profileSingle.innerHTML = data
+                }, 'json')
             })
         })
     }
-
     
 });

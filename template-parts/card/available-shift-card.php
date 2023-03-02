@@ -1,5 +1,5 @@
 <?php
-if (!count($args['shifts']) > 0) {
+if (empty($args['shifts'])) {
     return;
 }
 ?>
@@ -15,11 +15,15 @@ if (!count($args['shifts']) > 0) {
                 ?>
                 <div>
                     <p class="text-sm mb-0">
-                        <?php echo $shift[0] ?? ''; ?>
+                        <?php echo $shift["time"]["ph"]["start"] ?? ''; ?>
+                        <span>-</span>
+                        <?php echo $shift["time"]["ph"]["end"] ?? ''; ?>
                     </p>
                     
                     <p class="text-sm mb-0">
-                        <?php echo $shift[1] ?? ''; ?>
+                        <?php echo $shift["time"]["cst"]["start"] ?? ''; ?>
+                        <span>-</span>
+                        <?php echo $shift["time"]["cst"]["end"] ?? ''; ?>
                     </p>
                 </div>
                 <?php

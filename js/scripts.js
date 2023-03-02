@@ -15,29 +15,33 @@
             });
         }
 
+        let setCookie = (cname, cvalue, exdays) => {
+            const d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            let expires = "expires="+d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+        
         /**
-         * Dialog
+         * @description Dialog Box
+         * 
+         * @author Ryan Sutana
          */
         const btnDialogClose = document.getElementById('dialog_close')
 
         btnDialogClose.addEventListener('click', (e) => {
             e.preventDefault();
+
+            console.log(e)
             
             // do nothing if dialog is not not even visible
             if (!document.body.classList.contains('dialog-open')) {
                 return
             }
-
+            
             // now hides the dialog box
             document.body.classList.remove('dialog-open')
         })
-    }
-    
-    let setCookie = (cname, cvalue, exdays) => {
-        const d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        let expires = "expires="+d.toUTCString();
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     }
 
     window.addEventListener('load', init());

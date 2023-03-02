@@ -8,9 +8,11 @@
                             <div class="lang"><?php echo $skill['name']; ?></div>
                             <div class="d-flex items-center justify-between">
                                 <div class="progress">
-                                    <div class="progress-bar <?php echo 'modern' == $args['type'] ? $skill['class'] : ''; ?>" 
-                                        style="width: <?php echo $skill['rate']; ?>%"
-                                    ></div>
+                                    <div class="progress-bar" 
+                                        style="
+                                            width: <?php echo $skill['rate']; ?>%;
+                                            <?php echo 'modern' == $args['type'] ? 'background-color:' . $skill['color'] : ''; ?>
+                                        "></div>
                                 </div>
                                 <div class="percent">
                                     <div class="value">

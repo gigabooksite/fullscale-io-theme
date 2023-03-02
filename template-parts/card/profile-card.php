@@ -6,9 +6,9 @@
         
         <div class="talent-details">
             <div class="d-flex justify-center">
-                <div class="d-flex rounded meta">
+                <div class="d-flex items-center rounded meta">
                     <h3 class="mb-0 font-gotham name">
-                        <?php echo esc_attr($args['name']); ?>
+                        <?php echo esc_attr($args['first_name']); ?>
                     </h3>
                     <div class="bg-green text-white role">
                         <?php echo esc_attr($args['role']); ?>
@@ -18,19 +18,21 @@
             
             <div class="mb-4 excerpt">
                 <?php
-                    $skills = $args['hackerRank'] ?? [];
-
-                    // if there are more than 3 hacker rank result , get only the latest 3
-                    if (count($skills) > 3) {
-                        $skills = array_slice($skills, 0, 3);
+                    $hackerRanks = !empty($args['hackerRank'])
+                                    ? $args['hackerRank']
+                                    : $args['skills'];
+                    
+                    // if there are more than 3 hackerrank result , get only the latest 3
+                    if (count($hackerRanks) > 3) {
+                        $hackerRanks = array_slice($hackerRanks, 0, 3);
                     }
-
+                    
                     // display skils
                     get_template_part(
                         'template-parts/card/skill',
                         'card',
                         [
-                            'skills' => $skills,
+                            'skills' => $hackerRanks,
                             'type'   => 'modern'   // modern | default
                         ]
                     );
@@ -47,12 +49,12 @@
                 
                 foreach($tags as $tag) { ?>
                     <a 
-                        href="<?php echo home_url(); ?>/<?php echo $tag; ?>/" 
+                        href="<?php echo home_url(); ?>/<?php echo $tag['name']; ?>/" 
                         class="mr-2 mb-2 btn btn-ghost no-underline green"
-                        title="Hire <?php echo $tag; ?> Developer"
+                        title="Hire <?php echo $tag['name']; ?> Developer"
                     >
-                        <?php echo $tag; ?>
-                    </a>    
+                        <?php echo $tag['name']; ?>
+                    </a>
                 <?php } ?>
             </div>
             

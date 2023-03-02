@@ -894,9 +894,13 @@ body {
                         .tech-talents .talent-details .name {
                             margin-bottom: 0 !important;
                             font-weight: 400;
-                            font-size: 15px;
                         }
                         .tech-talents .talent-details .role {}
+
+                        .tech-talents .talent-details .name,
+                        .tech-talents .talent-details .role {
+                            font-size: 14px;
+                        }
 
                     .tech-talents .talent-details .excerpt {}
                         .tech-talents .talent-details .excerpt p {

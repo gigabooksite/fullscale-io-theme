@@ -520,14 +520,14 @@ function fs_tech_talents_func($atts)
 
     [$endpoint_url]     = fs_get_env($_GET['env'] ?? '');
     $selectedLang       = $atts['lang'] ?? '';
-
+    
     $response           = wp_remote_get($endpoint_url . '/io/talents?keyword='. $selectedLang .'&match-any-keywords=false');
     
     // if there's something wrong while communicating to the API, stop.
     if (is_wp_error($response)) {
         return;
     }
-    
+
     $responseBody   = json_decode(wp_remote_retrieve_body($response), true);
     $talents        = $responseBody['data'] ?? [];
     
