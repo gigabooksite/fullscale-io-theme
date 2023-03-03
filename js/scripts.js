@@ -29,19 +29,21 @@
          */
         const btnDialogClose = document.getElementById('dialog_close')
 
-        btnDialogClose.addEventListener('click', (e) => {
-            e.preventDefault();
+        if (btnDialogClose) {
+            btnDialogClose.addEventListener('click', (e) => {
+                e.preventDefault();
 
-            console.log(e)
-            
-            // do nothing if dialog is not not even visible
-            if (!document.body.classList.contains('dialog-open')) {
-                return
-            }
-            
-            // now hides the dialog box
-            document.body.classList.remove('dialog-open')
-        })
+                console.log(e)
+                
+                // do nothing if dialog is not not even visible
+                if (!document.body.classList.contains('dialog-open')) {
+                    return
+                }
+                
+                // now hides the dialog box
+                document.body.classList.remove('dialog-open')
+            })
+        }
     }
 
     window.addEventListener('load', init());

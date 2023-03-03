@@ -17,7 +17,7 @@ function _var_dump($dump) {
  */
 function fs_get_env(string $env = 'local') : Array {
 	$theme_settings = get_option('fullscale_theme_settings');
-	
+
 	switch($env) {
 		case "demo":
 				$endpoint_url       = $theme_settings['endpoint_url'];
@@ -59,21 +59,21 @@ function fs_get_env(string $env = 'local') : Array {
  */
 function fs_get_tech_stack() : Array {
 	return [
-		'.NET',
-		'C#',		
-		'PHP',		
-		'Java',		
-		'Python',		
-		'Nodejs',		
-		'Ruby on Rails',		
-		'Typescript',		
-		'Frontend',		
-		'React',		
-		'iOS',		
-		'Android',		
-		'Javascript',
-		'Angular',
-		'Vue'
+		'.net' 			=> '.NET',
+		'c-sharp' 		=> 'C#',		
+		'php' 			=> 'PHP',		
+		'java' 			=> 'Java',		
+		'python' 		=> 'Python',		
+		'nodejs' 		=> 'Nodejs',		
+		'ruby-on-rails' => 'Ruby on Rails',		
+		'typescript' 	=> 'Typescript',		
+		'frontend' 		=> 'Frontend',		
+		'react' 		=> 'React',		
+		'ios' 			=> 'iOS',		
+		'android' 		=> 'Android',		
+		'javascript' 	=> 'Javascript',
+		'angular' 		=> 'Angular',
+		'vue' 			=> 'Vue'
 	];
 }
 

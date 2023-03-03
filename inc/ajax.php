@@ -31,7 +31,7 @@ function fs_client_onboarding_func()
         $body =  [
             "email" => $email_address
         ];
-
+        
         $response = wp_remote_post($endpoint_url . '/forms/client-onboarding/responses', [
             'timeout'     => 45,
             'redirection' => 5,
@@ -102,12 +102,12 @@ function fs_view_profile_func()
         return;
     }
 
-    // now request the other talents as well
-    // $otherTalentResponse   = wp_remote_get($endpoint_url . '/io/talents?keyword='. $lang .'&exclude='. $talentId .'&take=2');
+    // now request for the Other Talents as well
+    $otherTalentResponse   = wp_remote_get($endpoint_url . '/io/talents?keyword='. $lang .'&exclude='. $talentId .'&take=2');
     
-    // $otherResponseBody   = json_decode(wp_remote_retrieve_body($otherTalentResponse), true);
-    // $otherRalentInfo     = $otherResponseBody['data'] ?? [];
-    
+    $otherResponseBody     = json_decode(wp_remote_retrieve_body($otherTalentResponse), true);
+    $otherTalents          = $otherResponseBody['data'] ?? [];
+
     ob_start();
     ?>
         <section class="elementor-section elementor-top-section elementor-element elementor-section-boxed elementor-section-height-default elementor-section-height-default">
@@ -298,76 +298,8 @@ function fs_view_profile_func()
                                                         <div class="pt-1 pb-1 bg-blue-50 rounded-md">
                                                             <div class="tech-talents relax">
                                                                 <?php
-                                                                    // this should be coming from the API
-                                                                    $talents = [
-                                                                        [
-                                                                            "id" => 9492,
-                                                                            "unique_str" => "9f16032cbd04d",
-                                                                            'avatar_url'=> get_stylesheet_directory_uri() . '/images/charry-profilepicture.png',
-                                                                            'first_name'      => 'Charry',
-                                                                            'role'      => 'Developer',
-                                                                            'excerpt'   => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porttitor arcu eget mauris sodales scelerisque.',
-                                                                            'tags'      => [
-                                                                                'PHP',
-                                                                                'CSS',
-                                                                                'Android',
-                                                                                'Node.js',
-                                                                                'JavaScript',
-                                                                            ],
-                                                                            'skills' => [
-                                                                                [
-                                                                                    'name'  => 'SQL',
-                                                                                    'rate'  => '63',
-                                                                                    'color' => 'green',
-                                                                                ],
-                                                                                [
-                                                                                    'name'  => 'JavaScript',
-                                                                                    'rate'  => '56',
-                                                                                    'color' => 'blue',
-                                                                                ],
-                                                                                [
-                                                                                    'name'  => 'NodeJS',
-                                                                                    'rate'  => '55',
-                                                                                    'class' => 'node-js',
-                                                                                ]
-                                                                            ],
-                                                                        ],
-                                                                        [
-                                                                            "id" => 296,
-                                                                            "unique_str" => "2af89c80b31d9b2",
-                                                                            'avatar_url'=> get_stylesheet_directory_uri() . '/images/belleo-profilepicture.png',
-                                                                            'first_name'=> 'Belleo',
-                                                                            'role'      => 'Developer',
-                                                                            'excerpt'   => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam facilisis nunc in dui bibendum.',
-                                                                            'tags'      => [
-                                                                                'PHP',
-                                                                                'CSS',
-                                                                                'Android',
-                                                                                'Node.js',
-                                                                                'JavaScript',
-                                                                            ],
-                                                                            'skills' => [
-                                                                                [
-                                                                                    'name'  => 'SEL',
-                                                                                    'rate'  => '90',
-                                                                                    'class' => 'angular-js',
-                                                                                ],
-                                                                                [
-                                                                                    'name'  => 'Software Engineering',
-                                                                                    'rate'  => '90',
-                                                                                    'class' => 'software-engineering',
-                                                                                ],
-                                                                                [
-                                                                                    'name'  => 'PHP',
-                                                                                    'rate'  => '89',
-                                                                                    'class' => 'php',
-                                                                                ]
-                                                                            ],
-                                                                        ],
-                                                                    ];
-
-                                                                    if (count($talents) > 0) {
-                                                                        foreach ($talents as $talent) {
+                                                                    if (count($otherTalents) > 0) {
+                                                                        foreach ($otherTalents as $talent) {
                                                                             get_template_part(
                                                                                 'template-parts/card/profile',
                                                                                 'card',

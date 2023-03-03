@@ -535,12 +535,7 @@ function fs_tech_talents_func($atts)
     if (count($talents) <= 0) {
         return;
     }
-
-    // if there are more than 4 talents, return the first 4 items only
-    if (count($talents) > 4) {
-        $talents = array_slice($talents, 0, 4);
-    }
-
+    
     // turn on output buffering
     ob_start();
     ?>
@@ -560,7 +555,7 @@ function fs_tech_talents_func($atts)
                                     'template-parts/card/profile',
                                     'card',
                                     [
-                                        'lang'      => $selectedLang,
+                                        'lang'      => $selectedLang,   // can be added to localStorage
                                         'talent'    => $talent,
                                     ]
                                 );

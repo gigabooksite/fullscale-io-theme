@@ -47,16 +47,27 @@
                 <?php 
                 $tags = $talent['skills'] ?? [];
                 
-                // if there are more than 5 skills , get only the latest 5
-                if (count($tags) > 5) {
-                    $tags = array_slice($tags, 0, 5);
+                // if there are more than 6 skills , get only the latest 6
+                if (count($tags) > 6) {
+                    $tags = array_slice($tags, 0, 6);
                 }
                 
-                foreach($tags as $tag) { ?>
-                    <a 
-                        href="<?php echo home_url(); ?>/<?php echo $tag['name']; ?>/" 
-                        class="mr-2 mb-2 btn btn-ghost no-underline green"
-                        title="Hire <?php echo $tag['name']; ?> Developer"
+                foreach($tags as $tag) {
+                    $tagSlug    = array_search($tag['name'], fs_get_tech_stack());
+
+                    if ($tagSlug === false) {
+                        $class = 'btn btn-ghost no-underline green';
+                    } else {
+                        $class = 'btn btn-ghost no-underline green';
+                        $href  = site_url('/') . 'hire-' . $tagSlug . '-developers';
+                        $title = 'Hire ' . $tag['name'] . ' Developer';
+                    }
+                    ?>
+                    <a class="mr-2 mb-2 <?php echo $class; ?>"
+                        <?php if ($tagSlug !== false) { ?>
+                            href="<?php echo $href; ?>"
+                            title="<?php echo $title; ?>"
+                        <?php } ?>
                     >
                         <?php echo $tag['name']; ?>
                     </a>

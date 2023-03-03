@@ -12,12 +12,12 @@ jQuery(document).ready(function($) {
             el.addEventListener('submit', (e) => {
                 e.preventDefault();
 
-                let message = el.querySelector('#message'),
-                    gettingStartedBtn = el.querySelector('#getting_started_btn'),
-                    loaderImg = el.querySelector('#loader'),
-                    nonce = el.querySelector('#fs_client_onboarding_nonce'),
-                    email = el.querySelector('#email'),
-                    env = el.querySelector('#env')
+                let message             = el.querySelector('#message'),
+                    gettingStartedBtn   = el.querySelector('#getting_started_btn'),
+                    loaderImg           = el.querySelector('#loader'),
+                    nonce               = el.querySelector('#fs_client_onboarding_nonce'),
+                    email               = el.querySelector('#email'),
+                    env                 = el.querySelector('#env')
 
                 let contents = { 
                     action:	'client_onboarding',
@@ -48,7 +48,8 @@ jQuery(document).ready(function($) {
         })
     }
     
-    // view profile
+    // view profile event propagation block, 
+    // it reads/uses the dialog box document handler
     const profileDialogSingle = document.querySelector('.profile-single')
     if (profileDialogSingle) {
         profileDialogSingle.addEventListener('click', (e) => {
@@ -74,9 +75,16 @@ jQuery(document).ready(function($) {
                     talentId: talentId,
                     talentUniqueId: talentUniqueId,
                     endpoint_url: fs_ajax_params.endpoint, 
-                }
+                },
+                'preparing talent profile...'
             ]
             
+            const profileSingle = document.getElementById('profile_single')
+                
+            // set our loading
+            profileSingle.innerHTML = loader('preparing talent profile...')
+
+            // submit a POST request
             postRequest(...args)
         })
     }
@@ -95,7 +103,7 @@ jQuery(document).ready(function($) {
                     left: 0,
                     behavior: 'smooth'
                 });
-    
+                
                 const lang              = profile.getAttribute('data-lang')
                 const talentId          = profile.getAttribute('data-id')
                 const talentUniqueId    = profile.getAttribute('data-uid')
@@ -105,45 +113,55 @@ jQuery(document).ready(function($) {
                     return
                 }
                 
-                // okay, our data is ready now open dialog-box
-                document.body.classList.add('dialog-open')
-                
-                const data = {
-                    action:	'view_profile',
-                    lang: lang,
-                    talentId: talentId,
-                    talentUniqueId: talentUniqueId,
-                    endpoint_url: fs_ajax_params.endpoint,
-                }
+                // request, to display more talent info            
+                const args = [
+                    {
+                        action:	'view_profile',
+                        lang: lang,
+                        talentId: talentId,
+                        talentUniqueId: talentUniqueId,
+                        endpoint_url: fs_ajax_params.endpoint,
+                    },
+                    'preparing talent profile...'
+                ]
                 
                 const profileSingle = document.getElementById('profile_single')
-
+                
                 // set our loading
-                profileSingle.innerHTML = loader()
-
-                $.post( fs_ajax_params.ajaxurl, data, function(data) {
-                    // repopulate data
-                    profileSingle.innerHTML = data
-                }, 'json')
+                profileSingle.innerHTML = loader('preparing talent profile...')
+                
+                // submit a POST request
+                postRequest(...args)
             })
         })
     }
 
-    let postRequest = (params) => {
+    /**
+     * @description This submit post request
+     * 
+     * @param {Objec} data 
+     * @param {String} loadingText 
+     */
+    let postRequest = (data, loadingText) => {
         // okay, our data is ready now open dialog-box
-        // document.body.classList.add('dialog-open')
+        document.body.classList.add('dialog-open')
         
-        const data = [params]
+        const profileSingle = document.getElementById('profile_single')
         
-        console.log(data)
-        
-        // $.post( fs_ajax_params.ajaxurl, data, function(data) {
-        //     const profileSingle = document.getElementById('profile_single')
-        
-        //     profileSingle.innerHTML = data
-        // }, 'json')
-    }
+        // set our loading
+        profileSingle.innerHTML = loader(loadingText)
 
+        $.post( fs_ajax_params.ajaxurl, data, function(data) {
+            // print HTML data to dialog view
+            profileSingle.innerHTML = data
+        }, 'json')
+    }
+    
+    /**
+     * @description Basic loader
+     * 
+     * @param {String} loadingText 
+     */
     let loader = (loadingText = 'loading...') => {
         return `
             <div id="profile_single" class="profile-single">
@@ -153,7 +171,14 @@ jQuery(document).ready(function($) {
                             <div class="elementor-widget-wrap elementor-element-populated">
                                 <div class="rounded-md dialog__body">
                                     <div class="profile-single__inner">
-                                        ${loadingText}
+                                        
+                                        <div class="text-center">
+                                            <figure class="mb-0">
+                                                <img src="${fs_ajax_params.stylesheet_directory}/images/three-dots.svg" />
+                                            </figure>
+                                            <p class="mb-0">${loadingText}</p>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
