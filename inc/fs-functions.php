@@ -10,9 +10,14 @@ function _var_dump($dump) {
 	echo '</pre>';
 }
 
+/**
+ * Return the selected ENV
+ * 
+ * @return Array
+ */
 function fs_get_env(string $env = 'local') : Array {
 	$theme_settings = get_option('fullscale_theme_settings');
-
+	
 	switch($env) {
 		case "demo":
 				$endpoint_url       = $theme_settings['endpoint_url'];
@@ -43,6 +48,32 @@ function fs_get_env(string $env = 'local') : Array {
 	return [
 		$endpoint_url,
 		$redirection_url
+	];
+}
+
+/**
+ * Get Rocks tech stack
+ * 
+ * @param 
+ * @return Array
+ */
+function fs_get_tech_stack() : Array {
+	return [
+		'.NET',
+		'C#',		
+		'PHP',		
+		'Java',		
+		'Python',		
+		'Nodejs',		
+		'Ruby on Rails',		
+		'Typescript',		
+		'Frontend',		
+		'React',		
+		'iOS',		
+		'Android',		
+		'Javascript',
+		'Angular',
+		'Vue'
 	];
 }
 

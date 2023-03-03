@@ -82,10 +82,12 @@ function fs_view_profile_func()
     
     // get submitted POST data from font-end with care
     $endpoint_url   = $_POST['endpoint_url'];
+    $lang           = $_POST['lang'];
     $talentId       = $_POST['talentId'];
+    $talentUniqueId = $_POST['talentUniqueId'];
     
     // request a get
-    $response       = wp_remote_get($endpoint_url . '/io/talent/'. $talentId);
+    $response       = wp_remote_get($endpoint_url . '/io/talent/'. $talentUniqueId);
     
     // if there's something wrong while communicating to the API, stop.
     if (is_wp_error($response)) {
@@ -100,6 +102,12 @@ function fs_view_profile_func()
         return;
     }
 
+    // now request the other talents as well
+    // $otherTalentResponse   = wp_remote_get($endpoint_url . '/io/talents?keyword='. $lang .'&exclude='. $talentId .'&take=2');
+    
+    // $otherResponseBody   = json_decode(wp_remote_retrieve_body($otherTalentResponse), true);
+    // $otherRalentInfo     = $otherResponseBody['data'] ?? [];
+    
     ob_start();
     ?>
         <section class="elementor-section elementor-top-section elementor-element elementor-section-boxed elementor-section-height-default elementor-section-height-default">
@@ -115,7 +123,7 @@ function fs_view_profile_func()
 
                                         <div class="elementor-column elementor-col-80 elementor-inner-column">
 
-                                            <section class="elementor-section elementor-inner-section elementor-element p-4 bg-blue-50 rounded-md profile-section">
+                                            <section class="elementor-section elementor-inner-section elementor-element w-full p-4 bg-blue-50 rounded-md profile-section">
                                                 <div class="elementor-container elementor-column-gap-default">
 
                                                     <div class="elementor-column elementor-col-30 elementor-inner-column">
@@ -363,7 +371,10 @@ function fs_view_profile_func()
                                                                             get_template_part(
                                                                                 'template-parts/card/profile',
                                                                                 'card',
-                                                                                $talent
+                                                                                [
+                                                                                    'lang'      => $lang,
+                                                                                    'talent'    => $talent,
+                                                                                ]
                                                                             );
                                                                         }
                                                                     }

@@ -67,7 +67,7 @@ function fs_footer_function()
 
                                                 <div class="elementor-column elementor-col-80 elementor-inner-column">
 
-                                                    <section class="elementor-section elementor-inner-section elementor-element p-4 bg-blue-50 rounded-md profile-section">
+                                                    <section class="elementor-section elementor-inner-section elementor-element w-full p-4 bg-blue-50 rounded-md profile-section">
                                                         <div class="elementor-container elementor-column-gap-default">
 
                                                             <div class="elementor-column elementor-col-30 elementor-inner-column">
@@ -364,7 +364,10 @@ function fs_footer_function()
                                                                                     get_template_part(
                                                                                         'template-parts/card/profile',
                                                                                         'card',
-                                                                                        $talent
+                                                                                        [
+                                                                                            'lang'   => '',
+                                                                                            'talent' => $talent,
+                                                                                        ]
                                                                                     );
                                                                                 }
                                                                             }

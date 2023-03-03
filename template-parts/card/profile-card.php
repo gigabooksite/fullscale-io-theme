@@ -1,26 +1,31 @@
+<?php
+    $lang   = $args['lang'] ?? '';
+    $talent = $args['talent'] ?? [];
+?>
+
 <div class="item mb-4">
     <div class="inner bg-white">
         <div class="text-center avatar">
-            <img src="<?php echo esc_url($args['avatar_url']) ?>" alt="" />
+            <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/avatar-placeholder.png" alt="" />
         </div>
         
         <div class="talent-details">
             <div class="d-flex justify-center">
                 <div class="d-flex items-center rounded meta">
                     <h3 class="mb-0 font-gotham name">
-                        <?php echo esc_attr($args['first_name']); ?>
+                        <?php echo esc_attr($talent['first_name']); ?>
                     </h3>
                     <div class="bg-green text-white role">
-                        <?php echo esc_attr($args['role']); ?>
+                        <?php echo esc_attr($talent['role']); ?>
                     </div>
                 </div>
             </div>
             
             <div class="mb-4 excerpt">
                 <?php
-                    $hackerRanks = !empty($args['hackerRank'])
-                                    ? $args['hackerRank']
-                                    : $args['skills'];
+                    $hackerRanks = !empty($talent['hackerRank'])
+                                    ? $talent['hackerRank']
+                                    : $talent['skills'];
                     
                     // if there are more than 3 hackerrank result , get only the latest 3
                     if (count($hackerRanks) > 3) {
@@ -40,7 +45,7 @@
             </div>
             <div class="d-flex mb-4 tags">
                 <?php 
-                $tags = $args['skills'] ?? [];
+                $tags = $talent['skills'] ?? [];
                 
                 // if there are more than 5 skills , get only the latest 5
                 if (count($tags) > 5) {
@@ -58,10 +63,12 @@
                 <?php } ?>
             </div>
             
-            <div>
+            <div class="btn-profile-wrap">
                 <a href="javascript: void(0);" 
                     class="btn btn-primary text-uppercase no-underline btn-profile"
-                    data-id="<?php echo $args['unique_str']; ?>"
+                    data-id="<?php echo $talent['id']; ?>"
+                    data-uid="<?php echo $talent['unique_str']; ?>"
+                    data-lang="<?php echo $lang; ?>"
                 >
                     View Profile
                 </a>

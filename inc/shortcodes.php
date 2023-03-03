@@ -521,7 +521,7 @@ function fs_tech_talents_func($atts)
     [$endpoint_url]     = fs_get_env($_GET['env'] ?? '');
     $selectedLang       = $atts['lang'] ?? '';
     
-    $response           = wp_remote_get($endpoint_url . '/io/talents?keyword='. $selectedLang .'&match-any-keywords=false');
+    $response           = wp_remote_get($endpoint_url . '/io/talents?keyword='. $selectedLang .'&take=4');
     
     // if there's something wrong while communicating to the API, stop.
     if (is_wp_error($response)) {
@@ -559,7 +559,10 @@ function fs_tech_talents_func($atts)
                                 get_template_part(
                                     'template-parts/card/profile',
                                     'card',
-                                    $talent
+                                    [
+                                        'lang'      => $selectedLang,
+                                        'talent'    => $talent,
+                                    ]
                                 );
                             ?>
 

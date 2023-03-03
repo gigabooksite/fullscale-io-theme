@@ -49,26 +49,45 @@ jQuery(document).ready(function($) {
     }
     
     // view profile
-    const profileItems = document.querySelectorAll('.tech-talents .item')
-    if (profileItems.length > 0) {
-        profileItems.forEach(profile => {
-            profile.addEventListener('click', (e) => {
-                
-                console.log(e.target)
+    const profileDialogSingle = document.querySelector('.profile-single')
+    if (profileDialogSingle) {
+        profileDialogSingle.addEventListener('click', (e) => {
+            
+            if('A' !== e.target.tagName) {
+                return
+            }
 
-            });
-        });
+            const lang              = e.target.getAttribute('data-lang')
+            const talentId          = e.target.getAttribute('data-id')
+            const talentUniqueId    = e.target.getAttribute('data-uid')
+
+            // if the click anchor don't have unique ID, stop
+            if ('' === talentUniqueId) {
+                return
+            }
+
+            // request, to display more talent info            
+            const args = [
+                {
+                    action:	'view_profile',
+                    lang: lang,
+                    talentId: talentId,
+                    talentUniqueId: talentUniqueId,
+                    endpoint_url: fs_ajax_params.endpoint, 
+                }
+            ]
+            
+            postRequest(...args)
+        })
     }
 
-    // view profile
+    // shortcode btn 'view profile'
     const btnProfiles = document.querySelectorAll('.tech-talents .btn-profile')
     
     if (btnProfiles.length > 0) {
         btnProfiles.forEach(profile => {
             profile.addEventListener('click', (e) => {
-                e.preventDefault();
-
-                console.log(e.target)
+                e.preventDefault()
                 
                 // scroll-top
                 window.scroll({
@@ -76,11 +95,13 @@ jQuery(document).ready(function($) {
                     left: 0,
                     behavior: 'smooth'
                 });
-                
-                const profileUniqueId = profile.getAttribute('data-id')
+    
+                const lang              = profile.getAttribute('data-lang')
+                const talentId          = profile.getAttribute('data-id')
+                const talentUniqueId    = profile.getAttribute('data-uid')
 
-                // if profileUniqueId is empty stop
-                if ('' === profileUniqueId) {
+                // if talentUniqueId is empty stop
+                if ('' === talentUniqueId) {
                     return
                 }
                 
@@ -88,18 +109,59 @@ jQuery(document).ready(function($) {
                 document.body.classList.add('dialog-open')
                 
                 const data = {
-                    action:	'view_profile', 
-                    talentId: profileUniqueId,
+                    action:	'view_profile',
+                    lang: lang,
+                    talentId: talentId,
+                    talentUniqueId: talentUniqueId,
                     endpoint_url: fs_ajax_params.endpoint,
                 }
                 
-                $.post( fs_ajax_params.ajaxurl, data, function(data) {
-                    const profileSingle = document.getElementById('profile_single')
+                const profileSingle = document.getElementById('profile_single')
 
+                // set our loading
+                profileSingle.innerHTML = loader()
+
+                $.post( fs_ajax_params.ajaxurl, data, function(data) {
+                    // repopulate data
                     profileSingle.innerHTML = data
                 }, 'json')
             })
         })
+    }
+
+    let postRequest = (params) => {
+        // okay, our data is ready now open dialog-box
+        // document.body.classList.add('dialog-open')
+        
+        const data = [params]
+        
+        console.log(data)
+        
+        // $.post( fs_ajax_params.ajaxurl, data, function(data) {
+        //     const profileSingle = document.getElementById('profile_single')
+        
+        //     profileSingle.innerHTML = data
+        // }, 'json')
+    }
+
+    let loader = (loadingText = 'loading...') => {
+        return `
+            <div id="profile_single" class="profile-single">
+                <section class="elementor-section elementor-top-section elementor-element elementor-section-boxed elementor-section-height-default elementor-section-height-default">
+                    <div class="elementor-container elementor-column-gap-default">
+                        <div class="elementor-column elementor-col-100 elementor-top-column elementor-element">
+                            <div class="elementor-widget-wrap elementor-element-populated">
+                                <div class="rounded-md dialog__body">
+                                    <div class="profile-single__inner">
+                                        ${loadingText}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `
     }
     
 });
