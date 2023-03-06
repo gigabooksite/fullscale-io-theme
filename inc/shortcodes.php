@@ -518,15 +518,19 @@ function fs_tech_talents_func($atts)
 		'lang' => '',
 	], $atts );
 
-    [$endpoint_url]     = fs_get_env($_GET['env'] ?? '');
-    $selectedLang       = $atts['lang'] ?? '';
-    
-    // $response           = wp_remote_get($endpoint_url . '/io/talents?keyword='. $selectedLang .'&take=4');
+    [$endpoint_url] = fs_get_env($_GET['env'] ?? WP_ENV ?? '');
+    $lang           = $atts['lang'] ?? '';
+
+    // allow multiple $lang
+    // $keyword           = [$lang];
+    // if (preg_match('/^([^|]*\|)+[^|]*$/', $keyword)) {
+    //     $keyword = explode("|", $keyword);
+    // }
     
     $response = wp_remote_get(
         add_query_arg(
             [
-                'keyword'   => $selectedLang,
+                'keyword'   => urlencode($lang),
                 'take'      => 4,
             ], 
             $endpoint_url . '/io/talents'
@@ -586,7 +590,7 @@ function fs_tech_talents_func($atts)
                                     'template-parts/card/profile',
                                     'card',
                                     [
-                                        'lang'      => $selectedLang,   // @TODO: can be added to localStorage
+                                        'lang'      => $lang,   // @TODO: can be added to localStorage
                                         'talent'    => $talent,
                                     ]
                                 );

@@ -61,9 +61,9 @@ jQuery(document).ready(function($) {
             const lang              = e.target.getAttribute('data-lang')
             const talentId          = e.target.getAttribute('data-id')
             const talentUniqueId    = e.target.getAttribute('data-uid')
-
+            
             // if the click anchor don't have unique ID, stop
-            if ('' === talentUniqueId) {
+            if (null === talentUniqueId) {
                 return
             }
 

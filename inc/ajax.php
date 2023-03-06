@@ -18,7 +18,6 @@ function fs_client_onboarding_func()
     // }
     
     $email_address = $_POST['email'];
-    $env           = $_POST['env'];
     
     if (empty($email_address)) {
         $json[] = __('Email address is a required field', 'full-scale');
@@ -26,6 +25,7 @@ function fs_client_onboarding_func()
         $json[] = __('Invalid email address', 'full-scale');
     } else {
 
+        $env        = $_POST['env'] ?? WP_ENV ?? '';
         [$endpoint_url, $redirection_url] = fs_get_env($env);
 
         $body =  [
@@ -81,7 +81,8 @@ function fs_view_profile_func()
     $json           = [];
     
     // get submitted POST data from font-end with care
-    $endpoint_url   = $_POST['endpoint_url'];
+    [$endpoint_url] = fs_get_env($_GET['env'] ?? WP_ENV ?? '');
+
     $lang           = $_POST['lang'];
     $talentId       = $_POST['talentId'];
     $talentUniqueId = $_POST['talentUniqueId'];
@@ -103,8 +104,6 @@ function fs_view_profile_func()
     }
 
     // now request for the Other Talents as well
-    // $otherTalentResponse   = wp_remote_get($endpoint_url . '/io/talents?keyword='. $lang .'&exclude='. $talentId .'&take=2');
-    
     $otherTalentResponse = wp_remote_get(
         add_query_arg(
             [

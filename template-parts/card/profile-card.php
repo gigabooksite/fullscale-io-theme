@@ -60,17 +60,16 @@
                             $class = 'btn btn-ghost no-underline green';
                         } else {
                             $class = 'btn btn-ghost no-underline green';
-                            $href  = site_url('/') . 'hire-' . $tagSlug . '-developers';
+                            $href  = site_url('/') . 'hire-expert-' . $tagSlug . '-developers';
                             $title = 'Hire ' . $tag['name'] . ' Developer';
 
                             // append current ENV
-                            // @TODO: should be coming from .env not manual query string
-                            $href = add_query_arg( 
-                                [
-                                    'env' => $_GET['env'] ?? ''
-                                ], 
-                                $href
-                            );
+                            // $href = add_query_arg( 
+                            //     [
+                            //         'env' => $_GET['env'] ?? WP_ENV ?? ''
+                            //     ],
+                            //     $href
+                            // );
                         }
                         ?>
                         <a class="mr-2 mb-2 <?php echo $class; ?>"

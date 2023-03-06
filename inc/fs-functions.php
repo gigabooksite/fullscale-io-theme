@@ -76,7 +76,8 @@ function fs_get_tech_stack() : Array {
 		'javascript' 	=> 'JavaScript',
 		'angular' 		=> 'Angular',
 		'angular' 		=> 'AngularJS',
-		'vue' 			=> 'Vue'
+		'vue-js' 		=> 'Vue',
+		'vue-js' 		=> 'VueJS',
 	];
 }
 

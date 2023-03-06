@@ -12,8 +12,8 @@
  */
 function fs_init() 
 {
-    [$endpoint_url] = fs_get_env($_GET['env'] ?? '');
-
+    [$endpoint_url] = fs_get_env($_GET['env'] ?? WP_ENV ?? '');
+    
 	wp_enqueue_script( 'fs-request-script', get_stylesheet_directory_uri() . '/js/ajax.js', array( 'jquery' ) );
 	wp_localize_script( 'fs-request-script', 'fs_ajax_params', array(
 		'stylesheet_directory'   => get_stylesheet_directory_uri(),
