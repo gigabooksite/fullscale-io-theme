@@ -43,36 +43,47 @@
                     );
                 ?>
             </div>
-            <div class="d-flex mb-4 tags">
-                <?php 
-                $tags = $talent['skills'] ?? [];
-                
-                // if there are more than 6 skills , get only the latest 6
-                if (count($tags) > 6) {
-                    $tags = array_slice($tags, 0, 6);
-                }
-                
-                foreach($tags as $tag) {
-                    $tagSlug    = array_search($tag['name'], fs_get_tech_stack());
-
-                    if ($tagSlug === false) {
-                        $class = 'btn btn-ghost no-underline green';
-                    } else {
-                        $class = 'btn btn-ghost no-underline green';
-                        $href  = site_url('/') . 'hire-' . $tagSlug . '-developers';
-                        $title = 'Hire ' . $tag['name'] . ' Developer';
+           
+                <div class=" mb-4 tags clearfix">
+                    <?php 
+                    $tags = $talent['skills'] ?? [];
+                    
+                    // if there are more than 6 skills , get only the latest 6
+                    if (count($tags) > 6) {
+                        $tags = array_slice($tags, 0, 6);
                     }
-                    ?>
-                    <a class="mr-2 mb-2 <?php echo $class; ?>"
-                        <?php if ($tagSlug !== false) { ?>
-                            href="<?php echo $href; ?>"
-                            title="<?php echo $title; ?>"
-                        <?php } ?>
-                    >
-                        <?php echo $tag['name']; ?>
-                    </a>
-                <?php } ?>
-            </div>
+                    
+                    foreach($tags as $tag) {
+                        $tagSlug    = array_search($tag['name'], fs_get_tech_stack());
+
+                        if ($tagSlug === false) {
+                            $class = 'btn btn-ghost no-underline green';
+                        } else {
+                            $class = 'btn btn-ghost no-underline green';
+                            $href  = site_url('/') . 'hire-' . $tagSlug . '-developers';
+                            $title = 'Hire ' . $tag['name'] . ' Developer';
+
+                            // append current ENV
+                            // @TODO: should be coming from .env not manual query string
+                            $href = add_query_arg( 
+                                [
+                                    'env' => $_GET['env'] ?? ''
+                                ], 
+                                $href
+                            );
+                        }
+                        ?>
+                        <a class="mr-2 mb-2 <?php echo $class; ?>"
+                            <?php if ($tagSlug !== false) { ?>
+                                href="<?php echo $href; ?>"
+                                title="<?php echo $title; ?>"
+                            <?php } ?>
+                        >
+                            <?php echo $tag['name']; ?>
+                        </a>
+                    <?php } ?>
+                </div>
+            
             
             <div class="btn-profile-wrap">
                 <a href="javascript: void(0);" 

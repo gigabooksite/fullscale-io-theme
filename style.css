@@ -911,10 +911,9 @@ body {
                                 margin-bottom: 0;
                             }
             
-            .tech-talents .talent-details .tags {
-                flex-wrap: wrap;
-            }
+            .tech-talents .talent-details .tags {}
                 .tech-talents .talent-details .tags a {
+                    float: left;
                     font-size: 12px;
                     color: #15a049;
                     line-height: 1.2;

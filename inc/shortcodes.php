@@ -541,12 +541,33 @@ function fs_tech_talents_func($atts)
     ?>
 
     <section class="tech-talents">
-        <div class="elementor-container elementor-column-gap-wide">
+        <div class="elementor-container elementor-column-gap-wide justify-center">
 
             <?php
+            $columnClass = '';
+
+            switch(count($talents)) {
+                case 1:
+                    $columnClass = 'elementor-col-40';
+                    break;
+                
+                case 2:
+                    $columnClass = 'elementor-col-30';
+                    break;
+
+                case 3:
+                    $columnClass = 'elementor-col-30';
+                    break;
+
+                default:
+                    $columnClass = 'elementor-col-25';
+                    break;
+            }
+
+
             foreach($talents as $talent) {
                 ?>
-                <div class="elementor-column elementor-col-25">
+                <div class="elementor-column <?php echo $columnClass ?? ''; ?>">
                     <div class="elementor-widget-wrap">
                         <div class="elementor-element">
 
@@ -555,7 +576,7 @@ function fs_tech_talents_func($atts)
                                     'template-parts/card/profile',
                                     'card',
                                     [
-                                        'lang'      => $selectedLang,   // can be added to localStorage
+                                        'lang'      => $selectedLang,   // @TODO: can be added to localStorage
                                         'talent'    => $talent,
                                     ]
                                 );

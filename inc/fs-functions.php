@@ -59,20 +59,23 @@ function fs_get_env(string $env = 'local') : Array {
  */
 function fs_get_tech_stack() : Array {
 	return [
-		'.net' 			=> '.NET',
+		'dot-net' 		=> '.NET',
+		'dot-net' 		=> 'ASP.Net',
+		'dot-net' 		=> '.Net Framework',
 		'c-sharp' 		=> 'C#',		
 		'php' 			=> 'PHP',		
 		'java' 			=> 'Java',		
 		'python' 		=> 'Python',		
-		'nodejs' 		=> 'Nodejs',		
+		'node-js' 		=> 'NodeJS',		
 		'ruby-on-rails' => 'Ruby on Rails',		
 		'typescript' 	=> 'Typescript',		
 		'frontend' 		=> 'Frontend',		
 		'react' 		=> 'React',		
 		'ios' 			=> 'iOS',		
 		'android' 		=> 'Android',		
-		'javascript' 	=> 'Javascript',
+		'javascript' 	=> 'JavaScript',
 		'angular' 		=> 'Angular',
+		'angular' 		=> 'AngularJS',
 		'vue' 			=> 'Vue'
 	];
 }

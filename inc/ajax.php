@@ -103,7 +103,18 @@ function fs_view_profile_func()
     }
 
     // now request for the Other Talents as well
-    $otherTalentResponse   = wp_remote_get($endpoint_url . '/io/talents?keyword='. $lang .'&exclude='. $talentId .'&take=2');
+    // $otherTalentResponse   = wp_remote_get($endpoint_url . '/io/talents?keyword='. $lang .'&exclude='. $talentId .'&take=2');
+    
+    $otherTalentResponse = wp_remote_get(
+        add_query_arg(
+            [
+                'keyword'   => $lang,
+                'exclude'   => $talentId,
+                'take'      => 2,
+            ], 
+            $endpoint_url . '/io/talents'
+        )
+    );
     
     $otherResponseBody     = json_decode(wp_remote_retrieve_body($otherTalentResponse), true);
     $otherTalents          = $otherResponseBody['data'] ?? [];
@@ -121,7 +132,7 @@ function fs_view_profile_func()
                                 <section class="elementor-section elementor-inner-section elementor-element">
                                     <div class="elementor-container lg:gap-4">
 
-                                        <div class="elementor-column elementor-col-80 elementor-inner-column">
+                                        <div class="elementor-column <?php echo (!empty($otherTalents)) ? 'elementor-col-80' : 'elementor-col-100'; ?> elementor-inner-column">
 
                                             <section class="elementor-section elementor-inner-section elementor-element w-full p-4 bg-blue-50 rounded-md profile-section">
                                                 <div class="elementor-container elementor-column-gap-default">
@@ -146,40 +157,44 @@ function fs_view_profile_func()
                                                                         </a>
                                                                     </div>
                                                                     
-                                                                    <div class="about">
-                                                                        <header>
-                                                                            <h3 class="mb-2 d-flex items-center text-uppercase font-gotham text-orange">
-                                                                                <i class="las la-user"></i>
-                                                                                <span class="ml-2">About</span>
-                                                                            </h3>
-                                                                        </header>
-                                                                        
-                                                                        <article class="text-sm">
-                                                                            <?php echo wpautop($talentInfo['summary']); ?>
-                                                                        </article>
-                                                                    </div>
-
-                                                                    <div class="skills">
-                                                                        <header>
-                                                                            <h3 class="mb-2 d-flex items-center text-uppercase font-gotham text-orange">
-                                                                                <i class="las la-wrench"></i>
-                                                                                <span class="ml-2">Skills</span>
-                                                                            </h3>
-                                                                        </header>
-
-                                                                        <div class="px-4 pt-2 pb-2 rounded-md skill-wrap">
-                                                                            <?php
-                                                                                get_template_part(
-                                                                                    'template-parts/card/skill',
-                                                                                    'card',
-                                                                                    [
-                                                                                        'skills' => $talentInfo['hackerRank'] ?? [],
-                                                                                        'type'   => 'default'   // modern | default
-                                                                                    ]
-                                                                                );
-                                                                            ?>
+                                                                    <?php if (!empty($talentInfo['summary'])) { ?>
+                                                                        <div class="about">
+                                                                            <header>
+                                                                                <h3 class="mb-2 d-flex items-center text-uppercase font-gotham text-orange">
+                                                                                    <i class="las la-user"></i>
+                                                                                    <span class="ml-2">About</span>
+                                                                                </h3>
+                                                                            </header>
+                                                                            
+                                                                            <article class="text-sm">
+                                                                                <?php echo wpautop($talentInfo['summary']); ?>
+                                                                            </article>
                                                                         </div>
-                                                                    </div>
+                                                                    <?php } ?>
+
+                                                                    <?php if (!empty($talentInfo['hackerRank'])) { ?>
+                                                                        <div class="skills">
+                                                                            <header>
+                                                                                <h3 class="mb-2 d-flex items-center text-uppercase font-gotham text-orange">
+                                                                                    <i class="las la-wrench"></i>
+                                                                                    <span class="ml-2">Skills</span>
+                                                                                </h3>
+                                                                            </header>
+
+                                                                            <div class="px-4 pt-2 pb-2 rounded-md skill-wrap">
+                                                                                <?php
+                                                                                    get_template_part(
+                                                                                        'template-parts/card/skill',
+                                                                                        'card',
+                                                                                        [
+                                                                                            'skills' => $talentInfo['hackerRank'],
+                                                                                            'type'   => 'default'   // modern | default
+                                                                                        ]
+                                                                                    );
+                                                                                ?>
+                                                                            </div>
+                                                                        </div>
+                                                                    <?php } ?>
                                                                 </div>
 
                                                             </div>
@@ -282,23 +297,23 @@ function fs_view_profile_func()
                                             </section>
 
                                         </div>
-                                        
-                                        <div class="elementor-column elementor-col-20 elementor-inner-column">
-                                            <div class="elementor-widget-wrap">
-                                                <div class="elementor-element">
-                                                    
-                                                    <div class="other-talents">
-                                                        <header class="mb-2">
-                                                            <h3 class="d-flex items-center font-gotham text-uppercase">
-                                                                <i class="las la-user-check text-green"></i>
-                                                                <span class="ml-2">Other Talent</span>
-                                                            </h3>
-                                                        </header>
+
+                                        <?php if (!empty($otherTalents)) { ?>
+                                            <div class="elementor-column elementor-col-20 elementor-inner-column">
+                                                <div class="elementor-widget-wrap">
+                                                    <div class="elementor-element">
                                                         
-                                                        <div class="pt-1 pb-1 bg-blue-50 rounded-md">
-                                                            <div class="tech-talents relax">
-                                                                <?php
-                                                                    if (count($otherTalents) > 0) {
+                                                        <div class="other-talents">
+                                                            <header class="mb-2">
+                                                                <h3 class="d-flex items-center font-gotham text-uppercase">
+                                                                    <i class="las la-user-check text-green"></i>
+                                                                    <span class="ml-2">Other Talent</span>
+                                                                </h3>
+                                                            </header>
+                                                            
+                                                            <div class="pt-1 pb-1 bg-blue-50 rounded-md">
+                                                                <div class="tech-talents relax">
+                                                                    <?php
                                                                         foreach ($otherTalents as $talent) {
                                                                             get_template_part(
                                                                                 'template-parts/card/profile',
@@ -309,16 +324,16 @@ function fs_view_profile_func()
                                                                                 ]
                                                                             );
                                                                         }
-                                                                    }
-                                                                ?>
+                                                                    ?>
+                                                                </div>
                                                             </div>
+
                                                         </div>
 
                                                     </div>
-
                                                 </div>
                                             </div>
-                                        </div>
+                                        <?php } ?>
 
                                     </div>
                                 </section>
