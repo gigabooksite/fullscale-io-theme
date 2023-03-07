@@ -76,13 +76,13 @@ jQuery(document).ready(function($) {
                     talentUniqueId: talentUniqueId,
                     endpoint_url: fs_ajax_params.endpoint, 
                 },
-                'preparing talent profile...'
+                'loading profile...'
             ]
             
             const profileSingle = document.getElementById('profile_single')
                 
             // set our loading
-            profileSingle.innerHTML = loader('preparing talent profile...')
+            profileSingle.innerHTML = loader('loading profile...')
 
             // submit a POST request
             postRequest(...args)
@@ -122,13 +122,13 @@ jQuery(document).ready(function($) {
                         talentUniqueId: talentUniqueId,
                         endpoint_url: fs_ajax_params.endpoint,
                     },
-                    'preparing talent profile...'
+                    'loading profile...'
                 ]
                 
                 const profileSingle = document.getElementById('profile_single')
                 
                 // set our loading
-                profileSingle.innerHTML = loader('preparing talent profile...')
+                profileSingle.innerHTML = loader('loading profile...')
                 
                 // submit a POST request
                 postRequest(...args)

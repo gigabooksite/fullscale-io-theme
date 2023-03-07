@@ -1,9 +1,3 @@
-<?php
-if (empty($args['timelines'])) {
-    return;
-}
-?>
-
 <div class="timeline">
     <h2 class="d-flex content-center items-center ml-4 pt-2 pb-2 px-4 bg-black-80 font-gotham text-xl text-uppercase rounded text-white timeline__heading">
         <?php echo $args['heading']; ?>

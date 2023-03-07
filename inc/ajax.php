@@ -107,10 +107,10 @@ function fs_view_profile_func()
     $otherTalentResponse = wp_remote_get(
         add_query_arg(
             [
-                'keyword'   => $lang,
+                'keyword'   => urlencode($lang),
                 'exclude'   => $talentId,
-                'take'      => 2,
-            ], 
+                'take'      => 3,
+            ],
             $endpoint_url . '/io/talents'
         )
     );
@@ -170,30 +170,33 @@ function fs_view_profile_func()
                                                                             </article>
                                                                         </div>
                                                                     <?php } ?>
+                                                                    
+                                                                    <div class="skills">
+                                                                        <header>
+                                                                            <h3 class="mb-2 d-flex items-center text-uppercase font-gotham text-orange">
+                                                                                <i class="las la-wrench"></i>
+                                                                                <span class="ml-2">Skills</span>
+                                                                            </h3>
+                                                                        </header>
 
-                                                                    <?php if (!empty($talentInfo['hackerRank'])) { ?>
-                                                                        <div class="skills">
-                                                                            <header>
-                                                                                <h3 class="mb-2 d-flex items-center text-uppercase font-gotham text-orange">
-                                                                                    <i class="las la-wrench"></i>
-                                                                                    <span class="ml-2">Skills</span>
-                                                                                </h3>
-                                                                            </header>
+                                                                        <div class="px-4 pt-2 pb-2 rounded-md skill-wrap">
+                                                                            <?php
+                                                                                $skills = !empty($talentInfo['hackerRank']) 
+                                                                                            ? $talentInfo['hackerRank']
+                                                                                            : $talentInfo['skills'];
 
-                                                                            <div class="px-4 pt-2 pb-2 rounded-md skill-wrap">
-                                                                                <?php
-                                                                                    get_template_part(
-                                                                                        'template-parts/card/skill',
-                                                                                        'card',
-                                                                                        [
-                                                                                            'skills' => $talentInfo['hackerRank'],
-                                                                                            'type'   => 'default'   // modern | default
-                                                                                        ]
-                                                                                    );
-                                                                                ?>
-                                                                            </div>
+                                                                                get_template_part(
+                                                                                    'template-parts/card/skill',
+                                                                                    'card',
+                                                                                    [
+                                                                                        'skills' => $skills,
+                                                                                        'type'   => 'default'   // modern | default
+                                                                                    ]
+                                                                                );
+                                                                            ?>
                                                                         </div>
-                                                                    <?php } ?>
+                                                                    </div>
+ 
                                                                 </div>
 
                                                             </div>
@@ -232,7 +235,13 @@ function fs_view_profile_func()
                                                                                                     ?>
                                                                                                 </h2>
                                                                                                 <h3 class="font-gotham location">
-                                                                                                    <span><?php echo $talentInfo['location']['division']; ?></span>,
+                                                                                                    <span>
+                                                                                                        <?php
+                                                                                                            echo !empty($talentInfo['location']['division'])
+                                                                                                                ? $talentInfo['location']['division'] . ',' 
+                                                                                                                : '';
+                                                                                                        ?>
+                                                                                                    </span>
                                                                                                     <span><?php echo $talentInfo['location']['country']; ?></span>
                                                                                                 </h3>
                                                                                             </div>
@@ -269,7 +278,7 @@ function fs_view_profile_func()
                                                                                 ]
                                                                             );
                                                                         ?>
-
+                                                                        
                                                                         <div class="absolute bottom-0 w-full">
                                                                             <div class="text-center">
                                                                                 <a 

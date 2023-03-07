@@ -134,6 +134,9 @@ body {
 .bottom-0 {
     bottom: 0px;
 }
+.bottom-4 {
+    bottom: 16px;
+}
 
 /**
  * Flexbox & Grid
@@ -157,6 +160,11 @@ body {
 /* width */
 .w-full {
     width: 100%;
+}
+
+/* height */
+.h-full {
+    height: 100%;
 }
 
 /**
@@ -866,13 +874,12 @@ body {
             }
 
 .tech-talents {}
-    .tech-talents .item {}
-        .tech-talents .item .inner {
-            margin: 8px;
-            padding: 32px 22px;
-            box-shadow: 0px 0 22px -8px #aba7a8;
-            border-radius: 8px;
-        }
+    .tech-talents .item {
+        margin: 8px;
+        padding: 32px 22px;
+        box-shadow: 0px 0 22px -8px #aba7a8;
+        border-radius: 8px;
+    }
             .tech-talents .avatar {}
                 .tech-talents .avatar img {
                     width: 100px;
@@ -882,25 +889,29 @@ body {
                 }
 
             .tech-talents .talent-details {}
-                .tech-talents .talent-details .meta {
-                    margin: 24px 0;
-                    border: 2px solid #15a049;
+                .tech-talents .talent-details .meta-wrap {
+                    color: #fff;
                 }
-                    .tech-talents .talent-details .meta .name,
-                    .tech-talents .talent-details .meta .role {
-                        padding: 0 18px;
-                        line-height: 1.5;
+                    .tech-talents .talent-details .meta {
+                        margin: 24px 0 14px 0;
+                        border: 2px solid #15a049;
                     }
-                        .tech-talents .talent-details .name {
-                            margin-bottom: 0 !important;
-                            font-weight: 400;
+                        .tech-talents .talent-details .meta .name,
+                        .tech-talents .talent-details .meta .role {
+                            padding: 2px 8px;
+                            width: 100%;
+                            line-height: 1.5;
                         }
-                        .tech-talents .talent-details .role {}
+                            .tech-talents .talent-details .name {
+                                margin-bottom: 0 !important;
+                                font-weight: 400;
+                            }
+                            .tech-talents .talent-details .role {}
 
-                        .tech-talents .talent-details .name,
-                        .tech-talents .talent-details .role {
-                            font-size: 14px;
-                        }
+                            .tech-talents .talent-details .name,
+                            .tech-talents .talent-details .role {
+                                font-size: 14px;
+                            }
 
                     .tech-talents .talent-details .excerpt {}
                         .tech-talents .talent-details .excerpt p {
@@ -921,8 +932,37 @@ body {
             
             .tech-talents .btn-profile {
                 display: block;
+                font-size: 14px;
                 text-align: center;
             }
+
+@media (min-width: 768px) {
+    .tech-talents .item-listing .tags {
+        margin-bottom: 42px;
+    }
+    
+    .tech-talents .item-listing .btn-profile-wrap {
+        position: absolute;
+        bottom: 0;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .tech-talents .item {
+        padding: 18px 12px;
+    }
+
+        .tech-talents .talent-details .meta {
+            flex-direction: column;
+        }
+        .tech-talents .talent-details .tags a {
+            word-break: break-all;
+        }
+        
+        .tech-talents .btn-profile {
+            font-size: 12px;
+        }
+}
 
 .tech-talents.relax {}
     .tech-talents.relax .btn {
@@ -934,7 +974,7 @@ body {
         padding-bottom: 4px;
     }
 
-    .tech-talents.relax .item .inner {
+    .tech-talents.relax .item {
         padding: 16px 12px;
     }
     .tech-talents.relax .avatar img {
@@ -1129,7 +1169,8 @@ body {
                 .profile-single__inner .profile-meta .employee-info {}
                 .profile-single__inner .profile-meta .avaialble-shifts {}
                 .profile-single__inner .profile-meta .employee-work-experience {
-                    max-height: 460px;
+                    min-height: 160px;
+                    max-height: 520px;
                     overflow: hidden;
                 }
                     .profile-single__inner .profile-meta .employee-work-experience::before {

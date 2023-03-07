@@ -48,25 +48,3 @@
 
     window.addEventListener('load', init());
 })();
-
-/**
- * @description Make CSS equal height
- * 
- */
-(function($) {
-    $.fn.equalHeightify = function() {
-        // keep track of the greatest height
-        let highest = 0; 
-
-        // loop all provided DOM elements
-        jQuery(this).each(function() {
-            // compare heights
-            if (jQuery(this).height() > highest) {
-                highest = jQuery(this).height();
-            }
-        });
-
-        // set new height
-        jQuery(this).height(highest); 
-    }
-})(jQuery);

@@ -111,10 +111,10 @@ function fs_talents_func($atts)
                             <div class="avatar">
                                 <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/charry-profilepicture.png" alt="" />
                             </div>
-                            <div class="d-flex justify-center ">
-                                <div class="d-flex meta">
+                            <div class="d-flex justify-center">
+                                <div class="d-flex meta rounded">
                                     <div class="name">Charry</div>
-                                    <div class="role bg-green text-white">Developer</div>
+                                    <div class="bg-green text-white role">Developer</div>
                                 </div>
                             </div>
                             <div class="skill-scores">
@@ -212,7 +212,7 @@ function fs_talents_func($atts)
                                 <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/belleo-profilepicture.png" alt="" />
                             </div>
                             <div class="d-flex justify-center ">
-                                <div class="d-flex meta">
+                                <div class="d-flex meta rounded">
                                     <div class="name">Belleo</div>
                                     <div class="role bg-green text-white">Developer</div>
                                 </div>
@@ -312,7 +312,7 @@ function fs_talents_func($atts)
                                 <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/mark-profilepicture.png" alt="" />
                             </div>
                             <div class="d-flex justify-center ">
-                                <div class="d-flex meta">
+                                <div class="d-flex meta rounded">
                                     <div class="name">Mark</div>
                                     <div class="role bg-green text-white">Developer</div>
                                 </div>
@@ -412,7 +412,7 @@ function fs_talents_func($atts)
                                 <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/eramae-profilepicture.png" alt="" />
                             </div>
                             <div class="d-flex justify-center ">
-                                <div class="d-flex meta">
+                                <div class="d-flex meta rounded">
                                     <div class="name">Eramae</div>
                                     <div class="role bg-green text-white">Developer</div>
                                 </div>
@@ -581,23 +581,18 @@ function fs_tech_talents_func($atts)
 
             foreach($talents as $talent) {
                 ?>
-                <div class="elementor-column <?php echo $columnClass ?? ''; ?>">
-                    <div class="elementor-widget-wrap">
-                        <div class="elementor-element">
-
-                            <?php
-                                get_template_part(
-                                    'template-parts/card/profile',
-                                    'card',
-                                    [
-                                        'lang'      => $lang,   // @TODO: can be added to localStorage
-                                        'talent'    => $talent,
-                                    ]
-                                );
-                            ?>
-
-                        </div>
-                    </div>
+                <div class="elementor-column <?php echo $columnClass ?? ''; ?>">        
+                    <?php
+                        get_template_part(
+                            'template-parts/card/profile',
+                            'card',
+                            [
+                                'lang'          => $lang,   // @TODO: can be added to localStorage
+                                'talent'        => $talent,
+                                'is_listing'    => true,      
+                            ]
+                        );
+                    ?>
                 </div>
                 <?php 
             }

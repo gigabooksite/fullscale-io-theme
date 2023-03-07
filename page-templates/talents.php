@@ -14,12 +14,6 @@
  * @link https://codex.wordpress.org/Template_Hierarchy
  */
 
-// Make this page private
-if (! is_user_logged_in()) {
-    wp_redirect( home_url( '/' ) );
-    exit;
-}
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
