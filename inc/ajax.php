@@ -224,8 +224,8 @@ function fs_view_profile_func()
                                                                                             
                                                                                             <div class="mb-8 font-semibold employee-info">
                                                                                                 <h1 class="mb-3 font-gotham text-4xl text-uppercase">
-                                                                                                    <span class="d-block font-bold name"><?php echo $talentInfo['first_name']; ?></span>
-                                                                                                    <span class="d-block font-semibold text-green last-name-initial"><?php echo $talentInfo['last_name']; ?>.</span>
+                                                                                                    <span class="font-bold name"><?php echo $talentInfo['first_name']; ?></span>
+                                                                                                    <span class="font-semibold text-green last-name-initial"><?php echo $talentInfo['last_name']; ?>.</span>
                                                                                                 </h1>
                                                                                                 <h2 class="font-gotham role">
                                                                                                     <?php 

@@ -9,30 +9,46 @@
         <div class="elementor-element">
 
             <div class="text-center avatar">
-                <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/avatar-placeholder.png" alt="" />
+                <?php
+                    if (false === filter_var($talent['avatar_url'], FILTER_VALIDATE_URL)) {
+                        $avatarUrl = (strcmp('prod', WP_ENV) !== 0 || strcmp('staging', WP_ENV) !== 0)
+                                        ? get_stylesheet_directory_uri() . '/images/avatar-placeholder.png'
+                                        : APP_URL . '/assets/img/'. $talent['avatar_url'];
+                    } else {
+                        $avatarUrl = $talent['avatar_url'];
+                    }
+                ?>
+                <img src="<?php echo esc_url($avatarUrl); ?>" alt="<?php echo esc_attr($talent['first_name']); ?>" />
             </div>
             
             <div class="talent-details">
                 
                 <div class="w-full text-center rounded meta">
                     <h3 class="mb-0 font-gotham name">
-                        <?php echo esc_attr($talent['first_name']); ?>
-                        <?php echo esc_attr($talent['last_name']) ?? ''; ?>
+                        <?php
+                            echo $talent['initial'] 
+                                ?? esc_attr($talent['first_name']) . ' ' . esc_attr($talent['last_name']) 
+                                ?? '';
+                        ?>.
                     </h3>
                     <div class="bg-green text-white role">
                         <?php echo esc_attr($talent['role']); ?>
                     </div>
                 </div>
                 
-                <div class="mb-4 excerpt">
+                <div class="mb-4 excerpt hacker-ranks">
                     <?php
                         $hackerRanks = !empty($talent['hackerRank'])
                                         ? $talent['hackerRank']
                                         : $talent['skills'];
                         
+                        $hackerRanksFormatted = fs_move_item_to_first($hackerRanks, $lang);
+                        
+                        // _var_dump($hackerRanks);
+
                         // if there are more than 3 hackerrank result , get only the latest 3
-                        if (count($hackerRanks) > 3) {
-                            $hackerRanks = array_slice($hackerRanks, 0, 3);
+                        if (count($hackerRanksFormatted) > 3) {
+                            $hackerRanksFormatted = array_slice($hackerRanksFormatted, 0, 3);
                         }
                         
                         // display skils
@@ -40,7 +56,7 @@
                             'template-parts/card/skill',
                             'card',
                             [
-                                'skills' => $hackerRanks,
+                                'skills' => $hackerRanksFormatted,
                                 'type'   => 'modern'   // modern | default
                             ]
                         );
@@ -50,6 +66,9 @@
                 <div class="mb-4 tags clearfix">
                     <?php 
                     $tags = $talent['skills'] ?? [];
+                    
+                    // remove garbage returned skills
+                    $tags = array_filter($tags);
                     
                     // if there are more than 6 skills , get only the latest 6
                     if (count($tags) > 6) {

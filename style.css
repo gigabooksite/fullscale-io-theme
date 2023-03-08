@@ -660,6 +660,18 @@ body {
         color: #ef3205;
     }
 
+.core-languages {}
+    .core-languages:hover a img {
+        opacity: 0.6;
+        
+        -webkit-transition: .4s;
+        -o-transition: .4s;
+        transition: .4s;
+    }
+        .core-languages a:hover img {
+            opacity: 1;
+        }
+
 /**
  * Getting Started
  */
@@ -982,7 +994,7 @@ body {
         height: 80px;
     }
 
-    .tech-talents.relax .excerpt {
+    .tech-talents.relax .hacker-ranks {
         margin-bottom: 26px;
     }
 
@@ -996,8 +1008,8 @@ body {
         }
 
 @media (min-width: 1024px) {
-    .tech-talents .talent-details .excerpt {
-        min-height: 100px;
+    .tech-talents .item-listing .talent-details .hacker-ranks {
+        min-height: 128px;
     }
 }
         

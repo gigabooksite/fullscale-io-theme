@@ -82,6 +82,34 @@ function fs_get_tech_stack() : Array {
 }
 
 /**
+ * Move array item to top
+ * 
+ * @return Array
+ */
+function fs_move_item_to_first($heystack, $needle) {
+	// Check if $heystack is an array, if not, stop
+	if (!is_array($heystack)) {
+		return;
+	}
+	
+	// Loop through the array of arrays to find the index of the name
+	foreach ($heystack as $key => $value) {
+		if (strtolower($value['name']) == strtolower($needle)) {
+			// Remove the array at the current index
+			$removed_array_item = array_splice($heystack, $key, 1);
+			
+			// Add the removed array to the beginning of the main array
+			array_unshift($heystack, $removed_array_item[0]);
+
+			// Break out of the loop
+			break;
+		}
+	}
+
+	return $heystack ?? [];
+}
+
+/**
  * Privacy Policy Popup
  */
 function fs_data_privacy_popup() {
