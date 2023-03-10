@@ -213,7 +213,7 @@ function fs_view_profile_func()
                                                                         <section class="elementor-section elementor-inner-section elementor-element">
                                                                             <div class="elementor-container elementor-column-gap-default">
                                                                                 
-                                                                                <div class="elementor-column elementor-col-60 elementor-inner-column">
+                                                                                <div class="elementor-column elementor-col-80 elementor-inner-column">
                                                                                     <div class="elementor-widget-wrap">
                                                                                         <div class="elementor-element">                                                                                                
                                                                                             <figure class="mb-8">
@@ -259,9 +259,7 @@ function fs_view_profile_func()
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="elementor-column elementor-col-40 elementor-inner-column">
-                                                                                    <!-- video goes here -->
-                                                                                </div>
+                                                                                
                                                                             </div>
                                                                         </section>
                                                                     </div>
