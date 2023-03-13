@@ -117,7 +117,7 @@ function fs_view_profile_func()
     
     $otherResponseBody     = json_decode(wp_remote_retrieve_body($otherTalentResponse), true);
     $otherTalents          = $otherResponseBody['data'] ?? [];
-
+    
     ob_start();
     ?>
         <section class="elementor-section elementor-top-section elementor-element elementor-section-boxed elementor-section-height-default elementor-section-height-default">

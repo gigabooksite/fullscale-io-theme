@@ -98,410 +98,82 @@ add_shortcode( 'client-onboarding-form', 'fs_client_onboarding_form_func' );
 
 function fs_talents_func($atts)
 {
-    ob_start();
+    [$endpoint_url] = fs_get_env($_GET['env'] ?? WP_ENV ?? '');
     
+    $response = wp_remote_get(
+        add_query_arg(
+            [
+                'isRandom'  => true,
+                'take'      => 4,
+            ], 
+            $endpoint_url . '/io/talents'
+        )
+    );
+
+    // if there's something wrong while communicating to the API, stop.
+    if (is_wp_error($response)) {
+        return;
+    }
+
+    $responseBody   = json_decode(wp_remote_retrieve_body($response), true);
+    $talents        = $responseBody['data'] ?? [];
+
+    // if we don't have data, stop
+    if (empty($talents)) {
+        return;
+    }
+    
+    // turn on output buffering
+    ob_start();
     ?>
-    <section class="talents">
-        <div class="elementor-container elementor-column-gap-wide">
-            <div class="elementor-column elementor-col-25">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                    <div class="elementor-element">
-                        
-                        <a href="<?php echo get_the_permalink(33); ?>">
-                            <div class="avatar">
-                                <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/charry-profilepicture.png" alt="" />
-                            </div>
-                            <div class="d-flex justify-center">
-                                <div class="d-flex meta rounded">
-                                    <div class="name">Charry</div>
-                                    <div class="bg-green text-white role">Developer</div>
-                                </div>
-                            </div>
-                            <div class="skill-scores">
-                                <ul class="elementor-icon-list-items">
-                                    <li>
-                                        <div>
-                                            <div class="lang">Angular</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar angular-js" style="width: 90%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        90 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="lang">Python</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar python" style="width: 91%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        91 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="lang">SQL</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar sql" style="width: 62%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        62 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="lang">JavaScript</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar js" style="width: 56%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        56 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="lang">NodeJS</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar node-js" style="width: 55%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        55 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    
-                                </ul>
-                            </div>
+
+    <section class="tech-talents minimal">
+        <div class="elementor-container elementor-column-gap-wide justify-center">
+            
+            <?php
+                $columnClass = '';
+
+                switch(count($talents)) {
+                    case 1:
+                        $columnClass = 'elementor-col-40';
+                        break;
+                    
+                    case 2:
+                        $columnClass = 'elementor-col-30';
+                        break;
+
+                    case 3:
+                        $columnClass = 'elementor-col-30';
+                        break;
+
+                    default:
+                        $columnClass = 'elementor-col-25';
+                        break;
+                }
+
+                foreach($talents as $talent) {
+                    ?>
+                    
+                    <div class="elementor-column <?php echo $columnClass ?? ''; ?>">      
+                        <a href="<?php echo get_permalink(33) ?>"
+                            class="w-full"
+                        >  
+                            <?php
+                                get_template_part(
+                                    'template-parts/card/profile-minimal',
+                                    'card',
+                                    [
+                                        'talent' => $talent   
+                                    ]
+                                );
+                            ?>
                         </a>
-
                     </div>
-                </div>
-            </div>
-
-            <div class="elementor-column elementor-col-25">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                    <div class="elementor-element">
-                        
-                        <a href="<?php echo get_the_permalink(33); ?>">
-                            <div class="avatar">
-                                <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/belleo-profilepicture.png" alt="" />
-                            </div>
-                            <div class="d-flex justify-center ">
-                                <div class="d-flex meta rounded">
-                                    <div class="name">Belleo</div>
-                                    <div class="role bg-green text-white">Developer</div>
-                                </div>
-                            </div>
-                            <div class="skill-scores">
-                                <ul class="elementor-icon-list-items">
-                                    <li>
-                                        <div>
-                                            <div class="lang">SQL</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar sql" style="width: 90%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        90 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="lang">Software Engineering</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar software-engineering" style="width: 90%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        90 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="lang">PHP</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar php" style="width: 89%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        89 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="lang">Git</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar git" style="width: 74%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        74 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="lang">MySQL</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar mysql" style="width: 71%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        71 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    
-                                </ul>
-                            </div>
-                        </a>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="elementor-column elementor-col-25">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                    <div class="elementor-element">
-                        
-                        <a href="<?php echo get_the_permalink(33); ?>">
-                            <div class="avatar">
-                                <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/mark-profilepicture.png" alt="" />
-                            </div>
-                            <div class="d-flex justify-center ">
-                                <div class="d-flex meta rounded">
-                                    <div class="name">Mark</div>
-                                    <div class="role bg-green text-white">Developer</div>
-                                </div>
-                            </div>
-                            <div class="skill-scores">
-                                <ul class="elementor-icon-list-items">
-                                    <li>
-                                        <div>
-                                            <div class="lang">API Development</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar api-development" style="width: 93%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        93 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="lang">JavaScript</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar js" style="width: 85%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        85 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="lang">CSS/SCSSLess/Sass</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar css" style="width: 83%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        83 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="lang">Ruby on Rails</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar ruby-rails" style="width: 81%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        81 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="lang">ReactJS</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar react-js" style="width: 68%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        68 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    
-                                </ul>
-                            </div>
-                        </a>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="elementor-column elementor-col-25">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                    <div class="elementor-element">
-                        
-                        <a href="<?php echo get_the_permalink(33); ?>">
-                            <div class="avatar">
-                                <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/eramae-profilepicture.png" alt="" />
-                            </div>
-                            <div class="d-flex justify-center ">
-                                <div class="d-flex meta rounded">
-                                    <div class="name">Eramae</div>
-                                    <div class="role bg-green text-white">Developer</div>
-                                </div>
-                            </div>
-                            <div class="skill-scores">
-                                <ul class="elementor-icon-list-items">
-                                    <li>
-                                        <div>
-                                            <div class="lang">C#/.NET</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar c-sharp" style="width: 93%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        93 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="lang">JavaScript</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar js" style="width: 85%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        85 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="lang">CSS/SCSSLess/Sass</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar css" style="width: 83%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        83 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="lang">Ruby on Rails</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar ruby-rails" style="width: 81%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        81 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="lang">ReactJS</div>
-                                            <div class="d-flex items-center progress-wrap modern">
-                                                <div class="progress">
-                                                    <div class="progress-bar react-js" style="width: 68%"></div>
-                                                </div>
-                                                <div class="percent">
-                                                    <div class="value">
-                                                        68 <span>%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    
-                                </ul>
-                            </div>
-                        </a>
-
-                    </div>
-                </div>
-            </div>
+                    
+                    <?php 
+                }
+            ?>
+            
         </div>
     </section>
     <?php
@@ -546,7 +218,7 @@ function fs_tech_talents_func($atts)
     $talents        = $responseBody['data'] ?? [];
     
     // if we don't have data, stop
-    if (count($talents) <= 0) {
+    if (empty($talents)) {
         return;
     }
     
@@ -596,7 +268,7 @@ function fs_tech_talents_func($atts)
                 </div>
                 <?php 
             }
-            ?> 
+            ?>
 
         </div>
     </section>

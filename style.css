@@ -474,7 +474,7 @@ body {
         
         margin-left: 0;
         margin-right: 6px;
-        background-color: #bebabb;
+        background-color: #ddd;
         height: 8px;
         border-radius: 8px;
         overflow: hidden;
@@ -899,6 +899,7 @@ body {
                     height: 100px;
                     border-radius: 10rem;
                     box-shadow: 0 -1px 2px 3px #aba7a8;
+                    display: inline-block;
                 }
 
             .tech-talents .talent-details {}
@@ -977,6 +978,55 @@ body {
         }
 }
 
+/* Tech talents minimal */
+.tech-talents.minimal {
+    position: relative;
+}
+    .tech-talents.minimal .item {
+        margin: 0;
+        box-shadow: none;
+    }
+        .tech-talents.minimal a {
+            color: #232323;
+        }
+
+        .tech-talents.minimal .item:hover {
+            position: relative;
+            z-index: 2;
+            box-shadow: 0px 0 22px -8px #aba7a8;
+        }
+    
+    .tech-talents.minimal .slick-arrow {
+        position: absolute;
+        bottom: 0;
+        z-index: 2;
+
+        padding: 0;
+        width: 18px;
+        height: 18px;
+        text-indent: -9999px;
+        
+        border: 0;
+        border-radius: 2px;
+        border-right: 3px solid #15a049;
+        border-bottom: 3px solid #15a049;
+    }
+        .tech-talents.minimal .slick-arrow:hover,
+        .tech-talents.minimal .slick-arrow:focus {
+            background-color: transparent;
+            border-color: #f63;
+        }
+
+        .tech-talents.minimal .slick-arrow.slick-prev {
+            left: 45%;
+            transform: rotate(135deg);
+        }
+        .tech-talents.minimal .slick-arrow.slick-next {
+            right: 45%;
+            transform: rotate(316deg);
+        }
+
+/* Tech talents relax */
 .tech-talents.relax {}
     .tech-talents.relax .btn {
         padding: 2px 8px;

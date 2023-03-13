@@ -44,14 +44,12 @@
                         
                         $hackerRanksFormatted = fs_move_item_to_first($hackerRanks, $lang);
                         
-                        // _var_dump($hackerRanks);
-
                         // if there are more than 3 hackerrank result , get only the latest 3
                         if (count($hackerRanksFormatted) > 3) {
                             $hackerRanksFormatted = array_slice($hackerRanksFormatted, 0, 3);
                         }
                         
-                        // display skils
+                        // display skills
                         get_template_part(
                             'template-parts/card/skill',
                             'card',

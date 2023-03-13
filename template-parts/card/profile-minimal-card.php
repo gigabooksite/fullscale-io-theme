@@ -2,7 +2,7 @@
     $talent         = $args['talent'] ?? [];
 ?>
 
-<div class="relative bg-white item item-listing w-full">
+<div class="relative bg-white item item-listing w-full h-full">
     <div class="elementor-widget-wrap h-full">
         <div class="elementor-element">
 
@@ -39,6 +39,11 @@
                         $hackerRanks = !empty($talent['hackerRank'])
                                         ? $talent['hackerRank']
                                         : $talent['skills'];
+
+                        // display only the latest 5 items
+                        if (count($hackerRanks) > 5) {
+                            $hackerRanks = array_slice($hackerRanks, 0, 5);
+                        }
 
                         // display skills
                         get_template_part(
