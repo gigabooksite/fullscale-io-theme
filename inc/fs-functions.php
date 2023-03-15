@@ -59,26 +59,42 @@ function fs_get_env(string $env = 'local') : Array {
  */
 function fs_get_tech_stack() : Array {
 	return [
-		'dot-net' 		=> '.NET',
-		'dot-net' 		=> 'ASP.Net',
-		'dot-net' 		=> '.Net Framework',
-		'c-sharp' 		=> 'C#',		
-		'php' 			=> 'PHP',		
-		'java' 			=> 'Java',		
-		'python' 		=> 'Python',		
-		'node-js' 		=> 'NodeJS',		
-		'ruby-on-rails' => 'Ruby on Rails',		
-		'typescript' 	=> 'Typescript',		
-		'frontend' 		=> 'Frontend',		
-		'react' 		=> 'React',		
-		'ios' 			=> 'iOS',		
-		'android' 		=> 'Android',		
-		'javascript' 	=> 'JavaScript',
-		'angular' 		=> 'Angular',
-		'angular' 		=> 'AngularJS',
-		'vue-js' 		=> 'Vue',
-		'vue-js' 		=> 'VueJS',
+		'.NET'				=> 'dot-net',
+		'ASP.Net'			=> 'dot-net',
+		'.Net Framework'	=> 'dot-net',
+		'C#'				=> 'c-sharp',
+		'PHP'				=> 'php',
+		'Java'				=> 'java',
+		'Python'			=> 'python',
+		'NodeJS'			=> 'node-js',
+		'Ruby on Rails'		=> 'ruby-on-rails',
+		'Typescript'		=> 'typescript',
+		'Frontend'			=> 'frontend',
+		'React'				=> 'react',
+		'iOS'				=> 'ios',
+		'Android'			=> 'android',
+		'JavaScript'		=> 'javascript',
+		'Angular'			=> 'angular',
+		'AngularJS'			=> 'angular',
+		'Vue'				=> 'vue-js',
+		'VueJS'				=> 'vue-js'
 	];
+}
+
+/**
+ * Remove duplicate from array items
+ * 
+ * @return Array
+ */
+function fs_remove_duplicate_item($items, $unique_column) {
+	// Check if $heystack is an array, if not, stop
+	if (!is_array($items)) {
+		return;
+	}
+	
+	$uniqueArray = array_unique(array_column($items, 'unique_id'));
+
+	return array_intersect_key($items, $uniqueArray);
 }
 
 /**
