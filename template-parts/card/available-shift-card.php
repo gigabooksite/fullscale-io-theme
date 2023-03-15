@@ -9,7 +9,7 @@ if (empty($args['shifts'])) {
         <?php echo $args['heading'] ?? 'Available Shifts'; ?>
     </h4>
     
-    <div class="d-flex justify-center gap-4 p-2 shifts">
+    <div class="d-grid justify-center gap-4 p-2 shifts">
         <?php
             foreach ($args['shifts'] as $shift) {
                 ?>
