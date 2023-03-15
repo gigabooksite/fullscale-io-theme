@@ -10,13 +10,7 @@
 
             <div class="text-center avatar">
                 <?php
-                    if (false === filter_var($talent['avatar_url'], FILTER_VALIDATE_URL)) {
-                        $avatarUrl = strcmp('local', WP_ENV) !== 0
-                                        ? APP_URL . '/assets/img/'. $talent['avatar_url']
-                                        : get_stylesheet_directory_uri() . '/images/avatar-placeholder.png';
-                    } else {
-                        $avatarUrl = $talent['avatar_url'];
-                    }
+                    $avatarUrl = fs_get_talent_avatar_url($talent['avatar_url']);
                 ?>
                 <img src="<?php echo esc_url($avatarUrl); ?>" alt="<?php echo esc_attr($talent['first_name']); ?>" />
             </div>

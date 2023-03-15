@@ -9,6 +9,7 @@ jQuery(document).ready(function($) {
             },
             {
                 breakpoint: 480,
+                adaptiveHeight: true,
                 settings: {
                     slidesToShow: 2,
                     slidesToScroll: 2

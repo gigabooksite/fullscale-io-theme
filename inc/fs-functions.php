@@ -98,6 +98,25 @@ function fs_remove_duplicate_item($items, $unique_column) {
 }
 
 /**
+ * Return talent avatar_url
+ * 
+ * @return String
+ */
+function fs_get_talent_avatar_url($avatarUrl) : String {
+	if(empty($avatarUrl)) {
+		return '';
+	}
+
+	if (false === filter_var($avatarUrl, FILTER_VALIDATE_URL)) {
+		$avatarUrl = strcmp('local', WP_ENV) !== 0
+						? APP_URL . '/assets/img/'. $avatarUrl
+						: get_stylesheet_directory_uri() . '/images/avatar-placeholder.png';
+	}
+
+	return esc_url($avatarUrl);
+}
+
+/**
  * Move array item to top
  * 
  * @return Array

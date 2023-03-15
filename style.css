@@ -1001,7 +1001,7 @@ body {
     
     .tech-talents.minimal .slick-arrow {
         position: absolute;
-        bottom: 0;
+        bottom: -40px;
         z-index: 2;
 
         padding: 0;
@@ -1021,13 +1021,23 @@ body {
         }
 
         .tech-talents.minimal .slick-arrow.slick-prev {
-            left: 45%;
+            left: 40%;
             transform: rotate(135deg);
         }
         .tech-talents.minimal .slick-arrow.slick-next {
-            right: 45%;
+            right: 40%;
             transform: rotate(316deg);
         }
+
+@media (max-width: 768px) {
+    .vetted-experts-holder {
+        overflow: hidden;
+    }
+
+    .tech-talents.minimal {
+        margin-bottom: 32px;
+    }
+}
 
 /* Tech talents relax */
 .tech-talents.relax {}
