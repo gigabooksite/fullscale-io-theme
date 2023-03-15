@@ -185,6 +185,9 @@ function fs_view_profile_func()
                                                                                             ? $talentInfo['hackerRank']
                                                                                             : $talentInfo['skills'];
 
+                                                                                // remove duplicates
+                                                                                $skills = fs_remove_duplicate_item($skills, 'unique_id');
+                                                                                
                                                                                 get_template_part(
                                                                                     'template-parts/card/skill',
                                                                                     'card',
