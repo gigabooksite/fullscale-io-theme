@@ -11,9 +11,9 @@
             <div class="text-center avatar">
                 <?php
                     if (false === filter_var($talent['avatar_url'], FILTER_VALIDATE_URL)) {
-                        $avatarUrl = (strcmp('prod', WP_ENV) !== 0 || strcmp('staging', WP_ENV) !== 0)
-                                        ? get_stylesheet_directory_uri() . '/images/avatar-placeholder.png'
-                                        : APP_URL . '/assets/img/'. $talent['avatar_url'];
+                        $avatarUrl = strcmp('local', WP_ENV) !== 0
+                                        ? APP_URL . '/assets/img/'. $talent['avatar_url']
+                                        : get_stylesheet_directory_uri() . '/images/avatar-placeholder.png';
                     } else {
                         $avatarUrl = $talent['avatar_url'];
                     }
@@ -49,6 +49,9 @@
                             $hackerRanksFormatted = array_slice($hackerRanksFormatted, 0, 3);
                         }
                         
+                        // remove duplicates
+                        $hackerRanksFormatted = fs_remove_duplicate_item($hackerRanksFormatted, 'unique_id');
+
                         // display skills
                         get_template_part(
                             'template-parts/card/skill',
@@ -74,11 +77,13 @@
                     }
                     
                     foreach($tags as $tag) {
-                        $tagSlug    = array_search($tag['name'], fs_get_tech_stack());
+                        $tabExist    = array_search($tag['name'], array_keys(fs_get_tech_stack()));
 
-                        if ($tagSlug === false) {
+                        if ($tabExist === false) {
                             $class = 'btn btn-ghost no-underline green';
                         } else {
+                            $tagSlug = fs_get_tech_stack()[$tag['name']];
+
                             $class = 'btn btn-ghost no-underline green';
                             $href  = site_url('/') . 'hire-expert-' . $tagSlug . '-developers';
                             $title = 'Hire ' . $tag['name'] . ' Developer';
@@ -92,8 +97,9 @@
                             // );
                         }
                         ?>
+
                         <a class="mr-2 mb-2 <?php echo $class; ?>"
-                            <?php if ($tagSlug !== false) { ?>
+                            <?php if ($tabExist !== false) { ?>
                                 href="<?php echo $href; ?>"
                                 title="<?php echo $title; ?>"
                             <?php } ?>
